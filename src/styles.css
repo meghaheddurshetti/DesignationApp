@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+
+#text-align-right {
+  text-align: left;
+  margin-left: 53px;
+}
+
+@media only screen and (max-width: 800px){
+  @page :blank {
+    @top-center { content: "This page is intentionally left blank" }
+  }
+}
+
+#text-align-bold{
+  font-weight: bold;
+}
+
+#text-align-right {
+  text-align: center;
+  margin-left: 53px;
+
+}
+
+#btn-div {
+  /* text-transform: lowercase; */
+  padding-top: 20px;
+}
+
+#search-box-round {
+  /* border-radius: 24px; */
+  /* text-align: left */
+  width: 277px;
+}
+
+#search {
+
+  /* padding-left: 119px; */
+    padding-right: 159px;
+}
+
+#text-color-title {
+  color:#183e82;
+  font-weight: bold;
+  padding-left: 80px;
+  padding-top: 20px;
+  /* font-size: 2.5em; */
+}

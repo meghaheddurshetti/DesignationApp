@@ -1,9 +1,14 @@
-<h1 class='float-left'>Designation</h1>
-<div class=''>
-
-  <div></div>
+<h1 class='float-left text' id='text-color-title'>{{title | uppercase}}</h1>
+<div class='container'>
   <button class="btn btn-lg btn-warning text-white float-right" (click)="open(content,'Add','')">Add new Designation</button>
 </div>
+<br><br><br><br>
+<div class='container' id='search'>
+    <form class="form-inline mr-auto ">
+       <input class="form-control " type="text" placeholder="Search for Designation" aria-label="Search" (keyup)='onSearch(f.value)' name='n1' #f id='search-box-round'>
+       <!-- <button class="btn btn-mdb-color btn-rounded btn-sm my-0 ml-sm-2" type="submit">Search</button> -->
+    </form>
+ </div><br>
 <table class='table'>
   <thead>
     <tr>
@@ -17,7 +22,7 @@
       <td>{{item.name}}</td>
       <td>{{item.description}}</td>
       <td>
-        <button class="btn btn-secondary" (click)="openEdit(content,i)"><i class="fas fa-edit"></i></button> |
+        <button class="btn btn-secondary" (click)="openEdit(content,'Edit',i)"><i class="fas fa-edit"></i></button> |
         <button class="btn btn-danger" (click)="onDesigDelete(item)"><i class="fas fa-trash"></i></button></td>
     </tr>
   </tbody>
@@ -25,7 +30,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" >Add/Edit Designation</h4>
+    <h4 class="modal-title" id="modal-basic-title" >{{selectedDesignationOption}} Designation</h4>
     <button type="button" class="close bg bg-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">Close</span>
     </button>
@@ -38,7 +43,7 @@
           <td><div class="form-group">
             <label for="designation">Designation</label>
             <div class="input-group">
-              <input id="designation" class="form-control" [(ngModel)]="name"  placeholder="Name" name="name">
+              <input id="designation" class="form-control" [(ngModel)]="name"  placeholder="Name" name="name" required>
               <div class="input-group-append">
                 <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
               </div>
@@ -49,7 +54,7 @@
          <td> <div class="form-group">
           <label for="description">Description</label>
           <div class="input-group">
-            <input id="description" class="form-control" [(ngModel)]="description"  placeholder="Description" name="description">
+            <input id="description" class="form-control" [(ngModel)]="description"  placeholder="Description" name="description" required>
             <div class="input-group-append">
               <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
             </div>
@@ -59,8 +64,7 @@
         </tr>
       </table>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-dark" (click)="UpdateItem()">upadate</button>
-        <button type="reset" class="btn btn-outline-dark"(click)="onSubmitFormDesign()" >add</button>
+        <button type="submit" class="btn btn-outline-dark" (click)="onFormSubmit()">{{selectedDesignationOption}}  Designation</button>
       </div>
     </form>
   </div>

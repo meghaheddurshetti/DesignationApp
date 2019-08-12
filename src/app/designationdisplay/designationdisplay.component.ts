@@ -9,7 +9,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./designationdisplay.component.css']
 })
 export class DesignationdisplayComponent implements OnInit {
-  updatedItem;
+  updatedItem:number;
+  title='Designations';
   closeResult: string;
   selectedDesignationOption:string;
   constructor(private modalService: NgbModal) { }
@@ -19,7 +20,7 @@ export class DesignationdisplayComponent implements OnInit {
   description:string = '';
   arrDesig: Designation[ ] = [
   new Designation('Software Engineer', 'Software Engineer'),
-  new Designation('Data Base AdminiStator', 'Handle the backend DB ports configauration'),
+  new Designation('System AdminiStator', 'System AdminiStator'),
   new Designation('Sr. Software', 'Senior Software Engineer')
  ];
   editId:number;
@@ -29,8 +30,18 @@ export class DesignationdisplayComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  onSearch(value) {
+
+    console.log(value);
+    if (value != "") {
+      this.arrDesig = this.arrDesig.filter(x => x.name.indexOf(value) != -1);
+    }
+  }
+
   // modal
-  open(content) {
+  open(content, passedTtitle, name) {
+    this.selectedDesignationOption = passedTtitle;
     this.name = '';
     this.description = '';
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -53,7 +64,8 @@ export class DesignationdisplayComponent implements OnInit {
 
 
   // Edit modal popup
-  openEdit(content, i) {
+  openEdit(content, passedTtitle, i) {
+    this.selectedDesignationOption = passedTtitle;
     console.log(i);
     this.name = this.arrDesig[i].name;
     this.description = this.arrDesig[i].description;
@@ -79,55 +91,26 @@ export class DesignationdisplayComponent implements OnInit {
   }
 
 
+  onFormSubmit() {
+    if (this.selectedDesignationOption=='Add') {
+      this.arrDesig.push(new Designation(this.name, this.description));
+    } else {
+      let data = this.updatedItem;
+      // console.log(data);
+      // alert(this.arrDesig.length);
+      for (let i = 0; i < this.arrDesig.length; i++) {
+        if (i == data) {
+          this.arrDesig[i].name = this.name;
+          this.arrDesig[i].description = this.description ;
+          console.log(this.arrDesig);
 
-  onSubmitFormDesign() {
-   /* if (this.id!=null) {
-
-    }
-    console.log()
-    // console.log(f.value);
-    console.log(f.value.name);
-    this.id = f.value.id;
-    this.name = f.value.name;
-    this.description = f.value.description;
-    // console.log(this.name);
-    */
-    this.arrDesig.push(new Designation(this.id, this.name, this.description));
-
-  }
-
-
-
-
-
-  EditItem(i) {
-    console.log(i);
-    this.name = this.arrDesig[i].name ;
-    this.description = this.arrDesig[i].description ;
-    this.updatedItem = i;
-
-  }
-
-
-  UpdateItem() {
-    //console.log(f.value);
-    let data = this.updatedItem;
-    // console.log(data);
-    // alert(this.arrDesig.length);
-    for (let i = 0; i < this.arrDesig.length; i++) {
-      if (i == data) {
-        this.arrDesig[i].name = this.name;
-        this.arrDesig[i].description = this.description ;
-        console.log(this.arrDesig);
-
-        this.name='';
-        this.description='';
+          this.name = '';
+          this.description = '';
+        }
       }
+
     }
-
+    this.modalService.dismissAll();
+    // this.ngOnInit();
   }
-
-
-
-
 }
