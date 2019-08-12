@@ -1,0 +1,75 @@
+<h1 class='float-left'>Designation</h1>
+<div class=''>
+
+  <div></div>
+  <button class="btn btn-lg btn-warning text-white float-right" (click)="open(content,'Add','')">Add new Designation</button>
+</div>
+<table class='table'>
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Description</td>
+      <td>Action</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of arrDesig; let i=index">
+      <td>{{item.name}}</td>
+      <td>{{item.description}}</td>
+      <td>
+        <button class="btn btn-secondary" (click)="openEdit(content,i)"><i class="fas fa-edit"></i></button> |
+        <button class="btn btn-danger" (click)="onDesigDelete(item)"><i class="fas fa-trash"></i></button></td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" >Add/Edit Designation</h4>
+    <button type="button" class="close bg bg-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">Close</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <!-- <div class='col-6'> -->
+    <form  #f="ngForm">
+      <table>
+        <tr>
+          <td><div class="form-group">
+            <label for="designation">Designation</label>
+            <div class="input-group">
+              <input id="designation" class="form-control" [(ngModel)]="name"  placeholder="Name" name="name">
+              <div class="input-group-append">
+                <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
+              </div>
+            </div>
+          </div>
+
+         </td>
+         <td> <div class="form-group">
+          <label for="description">Description</label>
+          <div class="input-group">
+            <input id="description" class="form-control" [(ngModel)]="description"  placeholder="Description" name="description">
+            <div class="input-group-append">
+              <!-- <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button"></button> -->
+            </div>
+          </div>
+        </div>
+      </td>
+        </tr>
+      </table>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" (click)="UpdateItem()">upadate</button>
+        <button type="reset" class="btn btn-outline-dark"(click)="onSubmitFormDesign()" >add</button>
+      </div>
+    </form>
+  </div>
+  <!-- </div> -->
+
+</ng-template>
+
+
+
+<!-- <hr>
+
+<pre>{{closeResult}}</pre> -->
