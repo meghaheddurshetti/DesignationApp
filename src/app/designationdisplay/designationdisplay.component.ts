@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Designation } from './designation';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalBackdrop } from '@ng-bootstrap/ng-bootstrap/modal/modal-backdrop';
 
 @Component({
 
@@ -9,15 +10,16 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./designationdisplay.component.css']
 })
 export class DesignationdisplayComponent implements OnInit {
-  updatedItem:number;
-  title='Designations';
-  closeResult: string;
-  selectedDesignationOption:string;
+  // inject modalService
   constructor(private modalService: NgbModal) { }
-  // id: string='';
-  name: string = '';
+  updatedItem: number;
+  title = 'Designations';
+  closeResult: string;
+  selectedDesignationOption: string;
+  name: string;
   msg = 'Are You Sure!';
-  description:string = '';
+  description:string;
+
   arrDesig: Designation[ ] = [
   new Designation('Software Engineer', 'Software Engineer'),
   new Designation('System AdminiStator', 'System AdminiStator'),
@@ -34,65 +36,45 @@ export class DesignationdisplayComponent implements OnInit {
   onSearch(value) {
 
     console.log(value);
-    if (value != "") {
-      this.arrDesig = this.arrDesig.filter(x => x.name.indexOf(value) != -1);
+    if (value != '') {
+      this.arrDesig = this.arrDesig.filter(x => x.name.startsWith(value));
     }
+    this.ngOnInit();
   }
 
-  // modal
-  open(content, passedTtitle, name) {
-    this.selectedDesignationOption = passedTtitle;
+  // Add modal
+  openAdd(content, passedTitle) {
+    this.selectedDesignationOption = passedTitle;
     this.name = '';
     this.description = '';
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content);
   }
-
-  // modal
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
 
   // Edit modal popup
-  openEdit(content, passedTtitle, i) {
-    this.selectedDesignationOption = passedTtitle;
-    console.log(i);
+  openEdit(content, passedTitle, i) {
+    console.log(content);
+    this.selectedDesignationOption = passedTitle;
+    // console.log(i);
     this.name = this.arrDesig[i].name;
     this.description = this.arrDesig[i].description;
-    console.log('updating');
-
+    // console.log('updating');
     this.updatedItem = i;
-
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(content);
   }
-
 
 
   // delete
   onDesigDelete(desig) {
+    console.log(desig);
     if (confirm(this.msg) === true) {
       this.arrDesig.splice(this.arrDesig.indexOf(desig), 1);
     }
 
   }
 
-
   onFormSubmit() {
-    if (this.selectedDesignationOption=='Add') {
+    if (this.selectedDesignationOption == 'Add') {
+      console.log(this.name);
       this.arrDesig.push(new Designation(this.name, this.description));
     } else {
       let data = this.updatedItem;
@@ -104,13 +86,12 @@ export class DesignationdisplayComponent implements OnInit {
           this.arrDesig[i].description = this.description ;
           console.log(this.arrDesig);
 
+          // To initialize the fields with empty data
           this.name = '';
           this.description = '';
         }
       }
-
     }
     this.modalService.dismissAll();
-    // this.ngOnInit();
   }
 }

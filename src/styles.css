@@ -1,22 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 
-#text-align-right {
-  text-align: left;
-  margin-left: 53px;
-}
 
-@media only screen and (max-width: 800px){
-  @page :blank {
-    @top-center { content: "This page is intentionally left blank" }
-  }
+.table-title td{
+  font-weight: bold;
 }
 
 #text-align-bold{
   font-weight: bold;
 }
 
+.buttonAdd{
+  padding-top: 20px;
+}
+
 #text-align-right {
-  text-align: center;
   margin-left: 53px;
 
 }
